@@ -14,21 +14,6 @@ function initDatabase() {
         db = openDatabase(shortName, version, displayName, maxSize);
     }
 
-    // 테이블삭제
-    // dropTable(db);
-
-    // createTable(db);
-
-    // // 테이블에 유니크 인덱스 추가
-    // addUniqueIndex(db);
-
-    // //selectAllList(db);
-    
-    // //insertTestDB(db);
-
-    // //테스트 데이터 삭제
-    // deleteTestDB(db);
-
     systemDB = db;
 }
 
@@ -81,12 +66,10 @@ function insertDB() {
 }
 
 function resultDroptable() {
-    //selectAllList(systemDB);
     console.log("Drop Table SUCCESS!!");
 }
 
 function loadAndReset() {
-    //selectAllList(systemDB);
     console.log("Insert Record SUCCESS");
     location.href = "login.html"
 }
@@ -95,7 +78,6 @@ function errorHandler(transaction, error) {
     console.log("Error: " + error.message + " (Code "+error.code+")");
     console.log("Insert Record ERROR");
 }
-
 
 function createTable(db) {
     let strCreate = "CREATE TABLE IF NOT EXISTS tbl_member"
