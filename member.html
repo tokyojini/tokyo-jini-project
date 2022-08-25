@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/js/jquery-1.12.4.min.js"></script>
+    <title>Document</title>
+    <style>
+        #wrap {
+            width: 510px;
+            border: 1px black solid;
+            border-radius: 10px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left;
+        }
+
+        h1 {
+            color: purple;
+            text-align: center;
+        }
+
+        table, td, tr {
+            border: 0px black solid;
+        }
+
+        table {
+            width: 500px;
+            margin: 30px 5px 30px 5px;
+        }
+
+        tr {
+            height: 30px;
+        }
+    
+
+
+
+        #email, #pw1, #pw2, #nick {
+            height: 25px;
+            width: 300px;
+            border-radius: 5px;
+            border: 1px solid green;
+            margin: 10px;  
+            text-align: left; 
+            
+        }
+        
+
+        #cancel, #signin, #index {
+            height: 30px;
+            width: 100px;
+            border-radius: 10px;
+            border: 1px solid green;       
+            margin: 20px;    
+        }
+
+        #cancel {
+            background-color: lightsalmon;
+        }
+
+        #signin, #index {
+            background-color: skyblue;
+        }
+
+        .item {
+            width: 150px;
+            padding-left: 15px;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 30px;
+            color: blue;
+            background-color: aquamarine;
+        }
+
+        .button_grp {
+            text-align: center;
+        }
+    </style>
+</head>
+
+
+<body>
+    <div id="wrap">
+        <form class="login" id="login" name="login">
+            <table>
+                <tr>
+                    <td class="title" colspan="2">회원가입화면</td>
+                   
+                </tr>
+                <tr>
+                    <td class="item email">E-Mail</td>
+                    <td class="body"><input id="email" type="text" placeholder="ex)abc@abc.com"></td>
+                </tr>
+                <tr>
+                    <td class="item pw1">비밀번호</td>
+                    <td class="body"><input id="pw1" type="password" placeholder="영자, 숫자혼합 8글자이상"></td>
+                </tr>
+                <tr>
+                    <td class="item pw2">비밀번호 확인</td>
+                    <td class="body"><input id="pw2" type="password" placeholder="비밀번호 확인"></td>
+                </tr>
+                <tr>
+                    <td class="item nick">닉네임</td>
+                    <td class="body"><input id="nick" type="text" placeholder="게시판에 보일 닉네임"></td>
+                </tr>
+                <tr>
+                    <td class="button_grp" colspan="2">
+                        <input id="cancel" type="button" value="취소" onclick="reset()"> 
+                        <input id="signin" type="button" value="회원가입" onclick="insertDB()">
+                        <input id="index" type="button" value="첫화면" onclick="goIndex()">
+                    </td>
+                
+                </tr>
+            </table>
+        </form>    
+
+<script src="js/db.js"></script>
+
+<script>     
+
+// db관련 
+let systemDB;
+
+$(document).ready(function() {
+        
+    initDatabase();
+
+    // $("#signin").click(function() {
+    //     if (checkfield() === true) {
+    //         insertDB();
+    //     }
+    // });
+});
+
+    //  let pw1 = "aaaa1234";
+    // // console.log(pw1.search(/\s/));
+    // console.log((/(\w)\1\1\1/.test(pw1)));
+
+    //     const chessStory = '1aaaa1112345555AAAAA';
+    // const regexpCoordinates = /(\w)\1\1\1/gi;
+    // console.log(chessStory);
+    // console.log(chessStory.match(regexpCoordinates));
+    // // expected output: Array [ 'a8', 'c2']
+
+
+     // 연속숫자. 연속문자 4자배열만들기
+    function makeChainString() {
+        
+        let num1 = "01234567890";
+        let num2 = "09876543210";
+        let alphaSmall = "abcdefghijklmnopqrstuvwxyz";
+        let alphaBig = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        
+        let arr = [];
+        let arrLen = "";
+    
+        for (let i = 0; i < num1.length-3; i++) {
+            arr[i] = num1.substr(i, 4);
+        }
+
+        arrLen = arr.length;
+
+        for (let i = 0; i < num2.length-3; i++) {
+            arr[i+arrLen] = num2.substr(i, 4);
+        }
+
+        arrLen = arr.length;
+
+        for (let i = 0; i < alphaSmall.length-3; i++) {
+            arr[i+arrLen] = alphaSmall.substr(i, 4);
+        }
+
+        arrLen = arr.length;
+
+        for (let i = 0; i < alphaBig.length-3; i++) {
+            arr[i+arrLen] = alphaBig.substr(i, 4);
+        }
+
+        return arr;
+    }
+
+   
+
+
+   
+    function checkfield() {
+        let email = document.getElementById("email").value; // 이메일
+        let pw1 = document.getElementById("pw1").value; // 비밀번호
+        let pw2 = document.getElementById("pw2").value; // 확인비밀번호
+        let nick = document.getElementById("nick").value;
+
+    
+
+        if (email.length == 0) { //해당 입력값이 없으령우 같은말: if(!email.value)
+            alert("E-Mail을 입력하세요.");
+            document.getElementById("email").focus(); //focus(): 커서가 깜빡이는 현상. blur(): 커서가 사라지는 현상
+            return false; // return: 반환하다. return false : 아무것도 반환하지 말아라. 아래코드부터 아무것도 진행하지 말것
+        }
+
+        // 1. 이메일형식으로 체크한다. 틀리면 alert 뜬다.
+        let exptext = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+
+        
+        if (exptext.test(email) == false) {
+            alert("이메일을 올바르게 적어주세요.");
+            document.getElementById("email").focus();
+            return false;
+        }
+
+
+        // 2. 영자,숫자혼합 8글자이상패스워드 체크한다. 연속숫자, 연속알파벳금지,공백금지 틀리면alert
+   
+        let pattern1 = pw1.search(/[0-9]/);
+        let pattern2 = pw1.search(/[a-z]/);
+        let apla = "abcdefghijklmnopqrstuvwxyz";
+        let num = "0123456789";
+
+
+        if (pw1.length != 8) {
+            alert("비밀번호를 8자리까지 입력하세요.");
+            document.getElementById("pw1").focus();    
+            return false;
+        }
+
+        if (pw2.length != 8) {
+            alert("비밀번호를 확인을 8자리까지 다시한번 입력하세요.");
+            document.getElementById("pw2").focus();    
+            return false;
+        }
+
+        if (pw1 != pw2) {
+            alert("비밀번호가 일치하지 않습니다.");
+            document.getElementById("pw1").focus();
+            return false;
+        }
+
+
+        if (pattern1 < 0 || pattern2 <0) {
+            alert("비밀번호는 숫자와 영문자를 혼용하여야 합니다.");
+            document.getElementById("pw1").focus();
+            return false;
+        }
+
+ 
+        //console.log(pw1.search(/\s/));
+
+        if (pw1.search(/\s/) >= 0) {
+            alert("비밀번호에 공백을 사용할수 없습니다.");
+            document.getElementById("pw1").focus();
+            return false;
+        }
+
+
+        // 같은4개의 숫자 금지
+
+        if (/(\w)\1\1\1/.test(pw1)) {
+            alert("같은 영숫자를 4번이상 사용할수 없습니다.");
+            document.getElementById("pw1").focus();
+            return false;
+        }
+
+
+        // 연속숫자. 연속문자 4자배열 체크하는것 
+        let chainString = makeChainString();
+        let isNG = false;
+
+        for (let i = 0; i < pw1.length-3; i++) {
+            let pwcheck = pw1.substr(i, 4);
+
+            if (chainString.indexOf(pwcheck) != -1) {
+                isNG = true;
+                break;
+            }
+        }
+
+        if (isNG == true) {
+            alert("연속숫자.영문자를 4자이상 사용할수 없습니다.");
+            document.getElementById("pw1").focus();
+            return false;
+        }
+
+
+        // 4. 닉네임체크하지않음
+        if (nick.length == 0) {
+            alert ("게시판에 쓰일 닉네임을 적어주세요.");
+            document.getElementById("nick").focus();
+            return false;
+        }
+
+
+        // 1. 이메일형식으로 체크한다. 틀리면 alert 뜬다. - 8월16일 완료
+        // 2. 영자,숫자혼합 8글자이상패스워드 체크한다. 연속숫자, 연속알파벳금지alert
+        // 3. pw1과 똑같은지비번 확인하기 틀리면 경고
+        // 4. 닉네임체크하지않음
+        // 5. 취소버튼 누르면 전체 인풋내용삭제
+        // 6. 회원가입버튼 누르면 체크하고 다 맞으면 다음화면으로 이동
+
+        return true;
+    }
+
+
+    // 5. 취소버튼 누르면 전체 인풋내용삭제
+    function reset() {
+        // document.getElementById("login").reset();
+        document.forms[0].reset();
+
+    }
+    // 6. 회원가입버튼 누르면 체크하고 다 맞으면 다음화면으로 이동
+    function login() {
+        document.login.submit();
+
+    }
+
+    //7. 첫화면으로 돌아가기
+    function goIndex() {
+        location.href = "index.html"
+    }
+</script>
+</body>
+</html>

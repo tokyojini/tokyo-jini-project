@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/js/jquery-1.12.4.min.js"></script>
+    <title>Document</title>
+    <style>
+        #wrap {
+            width: 510px;
+            border: 1px black solid;
+            border-radius: 10px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left;
+        }
+
+        h1 {
+            color: purple;
+            text-align: center;
+        }
+
+        table, td, tr {
+            border: 0px black solid;
+        }
+
+        table {
+            width: 500px;
+            margin: 30px 5px 30px 5px;
+        }
+
+        tr {
+            height: 30px;
+        }
+    
+
+
+
+        #email, #pw1, #pw2, #nick {
+            height: 25px;
+            width: 300px;
+            border-radius: 5px;
+            border: 1px solid green;
+            margin: 10px;  
+            text-align: left; 
+            
+        }
+        
+
+        #index, #login, #signin {
+            height: 30px;
+            width: 100px;
+            border-radius: 10px;
+            border: 1px solid green;       
+            margin: 20px;    
+        }
+
+        #index {
+            background-color: lightsalmon;
+        }
+
+        #login {
+            background-color: lightyellow;
+        }
+
+        #signin {
+            background-color: skyblue;
+        }
+
+        .item {
+            width: 150px;
+            padding-left: 15px;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 30px;
+            color: blue;
+            background-color: aquamarine;
+        }
+
+        .button_grp {
+            text-align: center;
+        }
+    </style>
+</head>
+
+
+<body>
+    <div id="wrap">
+        <form class="login" name="login">
+            <table>
+                <tr>
+                    <td class="title" colspan="2">로그인 화면</td>
+                   
+                </tr>
+                <tr>
+                    <td class="item email">E-Mail</td>
+                    <td class="body"><input id="email" type="text" placeholder="ex)abc@abc.com"></td>
+                </tr>
+                <tr>
+                    <td class="item pw1">비밀번호</td>
+                    <td class="body"><input id="pw1" type="password" placeholder="영자, 숫자혼합 8글자이상"></td>
+                </tr>
+                
+                <tr>
+                    <td class="button_grp" colspan="2">
+                        <input id="index" type="button" value="첫화면" onclick="goIndex()"> 
+                        <input id="login" type="button" value="로그인" onclick="goLogin()">
+                        <input id="signin" type="button" value="회원가입" onclick="goSignin()">
+                    </td>
+                </tr>
+
+
+            </table>
+        </form>    
+
+<script src="js/db.js"></script>
+
+<script>     
+// db관련 
+let systemDB;
+
+$(document).ready(function() {
+    initDatabase();
+});
+
+function goIndex() {
+    location.href = "index.html"
+}
+
+function goLogin() {
+    location.href = "board.html"
+}
+
+function goSignin() {
+    location.href = "member.html"
+}
+
+
+
+</script>
+</body>
+</html>

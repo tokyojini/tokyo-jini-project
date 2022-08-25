@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/js/jquery-1.12.4.min.js"></script>
+    <title>Document</title>
+    <style>
+        #flower {
+            position: fixed;
+            top: 100;
+            left: 100;
+        }
+
+
+        .flower_none {
+            display: none;
+        }
+
+
+        table {           
+            border: 2px solid blueviolet;
+            width: 400px;
+            height: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: lightyellow;
+        }
+
+        td {
+            border: 2px solid blueviolet;
+            text-align: center;
+        }
+
+        #box {
+            width: 100%;
+            top:50%; 
+            left:50%;
+    
+            
+        }
+
+
+
+        .title, .footer {
+            background-color: green;
+            color: white;
+            height: 100px;
+        }
+
+        .manual {
+            color: brown;
+        }
+
+        .box {
+            background-color: #eee;
+        }
+
+        #timer {
+            font-size: 26px;
+          
+        }
+
+       
+
+
+    </style>
+</head>
+<body>
+   
+    <img id="flower" src="/img/flower.png" alt="꽃" onclick="clickBox(this)">
+  
+    <table>
+        <tr>
+            <td class="title"><h1>B*O*A*R*D</h1></td>
+        </tr>
+
+        <tr>
+            <td class="manual"> 꽃 전용 (투입구는 밑에 회색칸입니다.)</td>        
+        </tr>
+
+        
+
+        <tr>
+            <td> 
+                <div id="box" onmouseover="overBox(this)" onmouseout="outBox(this)" onclick="clickFlower(this)"> 이곳에 꽃을 가져와 넣어주세요.</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td id="count">
+                0개의 꽃을 넣었습니다.
+            </td>
+        </tr>
+
+        <tr style="display: none;">
+            <td>
+                <span id="timer">3</span>초후 로그인 화면으로 이동합니다.                    
+            </td>
+        </tr>
+    
+        <tr>
+            <td class="footer"><h2>게시판 로그인은 꽃한송이</h2></td>
+        </tr>       
+        <tr style="display: none;">
+            
+            <td class="footer">
+                <input type="text" id="coin">
+            </td>
+        </tr>
+    </table>
+    
+    <script>
+        let count = 0;
+        let timer = 3;
+
+
+        
+        function overBox(obj) {
+            obj.style.backgroundColor = 'lightcoral';
+            console.log('over');
+        }
+
+        function outBox(obj) {
+            obj.style.backgroundColor = '#eee';
+            console.log('out');
+        }
+
+
+        function clickBox(obj) {
+            // 1번 방법 (스타일추가하는 방법)
+            // obj.style.display = "none";
+            // console.log('hide');
+
+
+            // 2번 방법 (자바스크립트로 클래스추가)
+            // let flower = document.getElementById("flower");
+            // flower.classList.add("flower_none");
+
+
+            // 3번 방법 (제이쿼리로 클래스추가)
+            $("#flower").addClass("flower_none");
+
+
+            $('html').css({cursor:'url(/img/flower.png),auto'});
+        }
+
+        
+        function clickFlower(obj) {
+            $("#flower").removeClass("flower_none");
+
+            $('html').css({cursor:'default'});
+
+            // 카운트 1 더하기
+            count++;
+            console.log(count);
+
+            if (count == 1) {
+                // 1. 아이디count에 관계된 아이디를 지정하고, 가지고 온다. 
+                let number = document.getElementById("count").textContent;
+                // console.log(number);
+
+
+                // 2. 개의 꽃을 넣었습니다. (이 문장을 따로 보존해준다. - 변하지 않는것 먼저 고정)
+                let str = "개의 꽃을 넣었습니다.";
+
+
+
+                // 4. 변수 count를 가지고온다. (맨 위에 적은것)
+                // 5. 4번의변수를 앞에붙이고 3번문장을 더해준다.
+                let newStr = count + str;
+                // console.log(newStr);
+
+
+                // 6. 5번에 있는문장을 아이디count로 보낸다.
+                $("#count").text(newStr);
+                $("#coin").val(newStr);
+
+                //7. 꽃이 들어가면 타이머부분이 나온다.
+                // document.getElementById("timer").parentNode.parentNode.style.display = 'table-row';
+                $("#timer").parent().parent().css({"display": "table-row"});
+
+
+                //8. 카운트값을 변경해서 넣으면 된다.
+                let interval = setInterval(function() {
+                    console.log("timer");
+                    // timer에서 숫자를 1씩 빼준다
+                    timer--;
+                    $("#timer").text(timer);
+
+                    //9. 타이머가 0이되면 clearInterval 하고 
+                    if (timer <= 0) {
+                        clearInterval(interval);
+                        console.log(timer);
+
+                        //10. 화면이 login.html으로 이동한다.
+                        location.href = "login.html";
+                    }
+                }, 1000);                
+            } 
+            count = 0;
+        }
+
+
+
+
+        
+
+        
+        
+
+    </script>
+</body>
+</html>
