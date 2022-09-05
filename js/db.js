@@ -15,7 +15,9 @@ function initDatabase() {
     }
 
     systemDB = db;
-    createTable(db);
+    // dropTable(db);
+    // createTable(db);
+    // insertTestDB(db);
 }
 
 
@@ -77,10 +79,15 @@ function addUniqueIndex(db) {
 
 
 function dropTable(db) {
-    let strSql = "DROP TABLE IF EXISTS tbl_member";
+    // let strSql = "DROP TABLE IF EXISTS tbl_member";
+    // db.transaction(function (tx) {
+    //     tx.executeSql(strSql, [], resultDroptable, errorHandler);
+    // })
+
+    let strSql = "DROP TABLE IF EXISTS tbl_board";
     db.transaction(function (tx) {
         tx.executeSql(strSql, [], resultDroptable, errorHandler);
-    })
+    });
 }
 
 function insertMember() {
@@ -129,7 +136,8 @@ function createTable(db) {
         + "(idx INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
         + "member_idx INTEGER NOT NULL,"
         + "content TEXT NOT NULL,"
-        + "regdate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)";
+        + "regdate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,"
+        + "update_date TIMESTAMP)";
     db.transaction(function (tx) {
         tx.executeSql(strCreateTableMember, [], function() {
             console.log("CREATE TABLE tbl_board SUCCESS!!!");
@@ -138,15 +146,36 @@ function createTable(db) {
 }
 
 function insertTestDB(db) {
-    db.transaction(function (tx) {
-        tx.executeSql("INSERT INTO tbl_member(email, password, nick) values('test1','비번', '1번째회원')", [], function() {
+    // db.transaction(function (tx) {
+    //     tx.executeSql("INSERT INTO tbl_member(email, password, nick) values('test1','비번', '1번째회원')", [], function() {
+    //         console.log("INSERT TEST DB SUCCESS!!!");
+    //     } ,errorHandler);
+
+    //     tx.executeSql("INSERT INTO tbl_member(email, password, nick) values('test2','비번', '2번째회원')", [], function() {
+    //         console.log("INSERT TEST DB2 SUCCESS!!!");
+    //     } ,errorHandler);
+    // });
+
+
+        db.transaction(function (tx) {
+        tx.executeSql("INSERT INTO tbl_board(member_idx, content) values('7','1번째글')", [], function() {
             console.log("INSERT TEST DB SUCCESS!!!");
         } ,errorHandler);
 
-        tx.executeSql("INSERT INTO tbl_member(email, password, nick) values('test2','비번', '2번째회원')", [], function() {
+        tx.executeSql("INSERT INTO tbl_board(member_idx, content) values('2','2번째글')", [], function() {
             console.log("INSERT TEST DB2 SUCCESS!!!");
         } ,errorHandler);
+
+        tx.executeSql("INSERT INTO tbl_board(member_idx, content) values('9','3번째글')", [], function() {
+            console.log("INSERT TEST DB3 SUCCESS!!!");
+        } ,errorHandler);
+
+        tx.executeSql("INSERT INTO tbl_board(member_idx, content) values('5','4번째글')", [], function() {
+            console.log("INSERT TEST DB4 SUCCESS!!!");
+        } ,errorHandler);
     });
+
+
 }
 
 // 회원이 있는지 체크
