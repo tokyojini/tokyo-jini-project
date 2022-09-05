@@ -131,11 +131,43 @@ function goIndex() {
 }
 
 function goLogin() {
-    location.href = "board.html"
+
+    // console.log(checkField());
+    // tbl_member에 회원정보가 있는지 확인 - 있으면 board.html로 이동 하고, 없으면 경고하고 폼내용삭제
+    // chechkForm();
+    // getMember(); - db.js에다가만들기
+    // console.log(isMember());
+    // return;
+
+
+    if (checkField() == true) {
+        //쿠키에 이메일정보 저장(이메일넣고 로그인했을때)
+        isMember();
+      
+        setTimeout(function () {
+            // 2초후에 쿠키에있는이메일정보를 확인하여 있으면 보드로이동
+            if (document.getElementById("email").value == getCookie("email")) {
+                location.href = "board.html"  
+            } else {
+
+                reset();
+                alert("다시 입력하세요");
+
+            }
+        },2000);
+    } else {
+        reset();
+    }
 }
 
-function goSignin() {
-    location.href = "member.html"
+
+
+
+// 수정해서 공부하기
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return unescape(parts.pop()).split(';').shift();
 }
 
 function master() {
@@ -143,11 +175,93 @@ function master() {
 }
 
 
+function checkField() {
+    // 이메일.비번 값을 가져온다
+    let email = document.getElementById("email").value; // 이메일
+    let pw1 = document.getElementById("pw1").value; // 비밀번호
 
-function tokyojini() {
-    let tokyojini="나는 아무것도~~ 너에게 원한건 1등복권이야. 그녀에게 나는 무슨 존재인가. 주말에 공부하자니 역정을 그리내요. 노!후!보!장! 나의노후를 보장하라. ";
+
+    // 2개입력한게 맞는형식인지 패턴체크한다. 
+    if (email.length == 0) { //해당 입력값이 없으령우 같은말: if(!email.value)
+        alert("E-Mail을 입력하세요.");
+        document.getElementById("email").focus(); //focus(): 커서가 깜빡이는 현상. blur(): 커서가 사라지는 현상
+        return false; // return: 반환하다. return false : 아무것도 반환하지 말아라. 아래코드부터 아무것도 진행하지 말것
+    }
+
+    //이메일형식체크
+    let exptext = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+
     
+    if (exptext.test(email) == false) {
+        alert("이메일을 올바르게 적어주세요.");
+        document.getElementById("email").focus();
+        return false;
+    }
+
+    // 비밀번호 형식체크
+    // 2. 영자,숫자혼합 8글자이상패스워드 체크한다. 연속숫자, 연속알파벳금지,공백금지 틀리면alert
+
+    let pattern1 = pw1.search(/[0-9]/);
+    let pattern2 = pw1.search(/[a-z]/);
+    let apla = "abcdefghijklmnopqrstuvwxyz";
+    let num = "0123456789";
+
+
+    if (pw1.length != 8) {
+        alert("비밀번호를 8자리까지 입력하세요.");
+        document.getElementById("pw1").focus();    
+        return false;
+    }
+
+    if (pattern1 < 0 || pattern2 <0) {
+        alert("비밀번호는 숫자와 영문자를 혼용하여야 합니다.");
+        document.getElementById("pw1").focus();
+        return false;
+    }
+
+    if (pw1.search(/\s/) >= 0) {
+        alert("비밀번호에 공백을 사용할수 없습니다.");
+        document.getElementById("pw1").focus();
+        return false;
+    }
+
+
+    // 같은4개의 숫자 금지
+
+    if (/(\w)\1\1\1/.test(pw1)) {
+        alert("같은 영숫자를 4번이상 사용할수 없습니다.");
+        document.getElementById("pw1").focus();
+        return false;
+    }
+
+
+    // 연속숫자. 연속문자 4자배열 체크하는것 
+    let chainString = makeChainString();
+    let isNG = false;
+
+    for (let i = 0; i < pw1.length-3; i++) {
+        let pwcheck = pw1.substr(i, 4);
+
+        if (chainString.indexOf(pwcheck) != -1) {
+            isNG = true;
+            break;
+        }
+    }
+
+    if (isNG == true) {
+        alert("연속숫자.영문자를 4자이상 사용할수 없습니다.");
+        document.getElementById("pw1").focus();
+        return false;
+    }
+
+    return true;    
 }
+
+function goSignin() {
+    location.href = "member.html"
+}
+
+
 
 
 </script>

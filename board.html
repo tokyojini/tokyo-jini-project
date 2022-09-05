@@ -6,9 +6,110 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="/js/jquery-1.12.4.min.js"></script>
     <title>Document</title>
+<style>
+    body {
+        margin: 10px;
+        background: rgba(216, 222, 148, 0.6);
+    }
+
+    #list {
+        list-style: none;
+    }
+
+    .btn_set {
+        margin: 0;
+        margin-left: 25%;
+        display: inline-block;
+        padding: 5px;
+    }
+
+    .btn, .btn_edit, .btn_delete {
+        width: 50px;
+        cursor: pointer;
+        display: inline-block;
+        background: #3498db;
+        background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
+        background-image: -moz-linear-gradient(top, #3498db, #2980b9);
+        background-image: -ms-linear-gradient(top, #3498db, #2980b9);
+        background-image: -o-linear-gradient(top, #3498db, #2980b9);
+        background-image: linear-gradient(to bottom, #3498db, #2980b9);
+        text-align: center;
+        color: #ffffff;
+        padding: 3px;
+
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+    .btn:hover, .btn_edit:hover, .btn_delete:hover {
+        background: #3cb0fd;
+        background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+        background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+        background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+        background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+        background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+    }
+
+    #form {
+        background: #fff;
+        width: 500px;
+        border-radius: 3px;
+        padding: 3px;
+        font-size: 12px;
+    }
+
+    .boardlist {
+        background: #fff;
+        border-radius: 3px;
+        width: 505px;
+        font-size: 12px;
+        padding: 1px;
+    }
+
+    .boardlist ol li {
+        margin-top: 3px;
+    }
+
+</style>
 </head>
+
+
 <body>
-    게시판입니다
+    <div id="form">
+        <h1>B*O*A*R*D</h1>
+        <form id="mycontact">
+            <input id="id" type="hidden" value=""/>
+            <fieldset>
+                <legend>게시판</legend>
+                <ol id="list">
+                  
+                    <li>
+                        <label for="content">내용: </label>
+                        <input id="content" type="text" placeholder="Write" required>
+                    </li>
+                </ol>
+            </fieldset>
+
+            <div class="btn_set">
+                <span id="btn_reset" class="btn">글지우기</span>
+                <span id="btn_insert" class="btn">글쓰기</span>
+                <span id="btn_update" class="btn">글수정</span>
+                <span id="btn_drop" class="btn">DB삭제</span>
+            </div>
+        </form>
+    </div>
+    <br>
+    <div id="boardlist" class="boardlist">list</div>
+
+    <script src="js/db.js"></script>
+<script>
+// db관련 
+let systemDB;
+
+$(document).ready(function() {
+    initDatabase();
+});
+</script>
     
 </body>
 </html>
