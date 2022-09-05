@@ -15,7 +15,46 @@ function initDatabase() {
     }
 
     systemDB = db;
+    createTable(db);
 }
+
+
+    // 연속숫자. 연속문자 4자배열만들기
+    function makeChainString() {
+    
+        let num1 = "01234567890";
+        let num2 = "09876543210";
+        let alphaSmall = "abcdefghijklmnopqrstuvwxyz";
+        let alphaBig = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        
+        let arr = [];
+        let arrLen = "";
+    
+        for (let i = 0; i < num1.length-3; i++) {
+            arr[i] = num1.substr(i, 4);
+        }
+    
+        arrLen = arr.length;
+    
+        for (let i = 0; i < num2.length-3; i++) {
+            arr[i+arrLen] = num2.substr(i, 4);
+        }
+    
+        arrLen = arr.length;
+    
+        for (let i = 0; i < alphaSmall.length-3; i++) {
+            arr[i+arrLen] = alphaSmall.substr(i, 4);
+        }
+    
+        arrLen = arr.length;
+    
+        for (let i = 0; i < alphaBig.length-3; i++) {
+            arr[i+arrLen] = alphaBig.substr(i, 4);
+        }
+    
+        return arr;
+    }
+
 
 
 function deleteTestDB(db) {
@@ -44,17 +83,11 @@ function dropTable(db) {
     })
 }
 
-function insertDB() {
-    let strSql = "INSERT INTO tbl_member(email, password, nick) VALUES (?, ?, ?)";
+function insertMember() {
     let email = $("#email").val().trim();
     let pw1 = $("#pw1").val().trim();
     let nick = $("#nick").val().trim();
-
-    if (email === "" || pw1 === "" || nick === "") {
-        alert("이메일을 입력하세요.");
-        $("#email").focus();
-        return;
-    }
+    let strSql = "INSERT INTO tbl_member(email, password, nick) VALUES (?, ?, ?)";
 
     systemDB.transaction(function (tx) {
         tx.executeSql(strSql, [email, pw1, nick], loadAndReset, function(transaction, error) {
@@ -88,7 +121,18 @@ function createTable(db) {
         + " regdate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)";
     db.transaction(function (tx) {
         tx.executeSql(strCreate, [], function() {
-            console.log("CREATE TABLE SUCCESS!!!");
+            console.log("CREATE TABLE tbl_member SUCCESS!!!");
+        }, errorHandler);
+    });
+
+    let strCreateTableMember = "CREATE TABLE IF NOT EXISTS tbl_board"
+        + "(idx INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
+        + "member_idx INTEGER NOT NULL,"
+        + "content TEXT NOT NULL,"
+        + "regdate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)";
+    db.transaction(function (tx) {
+        tx.executeSql(strCreateTableMember, [], function() {
+            console.log("CREATE TABLE tbl_board SUCCESS!!!");
         }, errorHandler);
     });
 }
@@ -103,4 +147,35 @@ function insertTestDB(db) {
             console.log("INSERT TEST DB2 SUCCESS!!!");
         } ,errorHandler);
     });
+}
+
+// 회원이 있는지 체크
+function isMember() {
+    let email = $("#email").val().trim();
+    let pw1 = $("#pw1").val().trim();
+    let strSql = "SELECT * FROM tbl_member WHERE email = ? AND password = ? ";
+   
+    systemDB.transaction(function (tx) {
+        tx.executeSql(strSql, [email, pw1], function (tx, results) {
+
+            if (results.rows.length > 0) {
+                //쿠키에 이메일정보 저장(이메일넣고 로그인했을때)
+                let email = "email";
+                document.cookie = email + "=" + results.rows[0].email;
+
+            }
+        }, function(tx, error) {
+            console.log("Error : " + error.message);
+            alert("다른 이메일을 넣어주세요");
+            return;
+        });
+    });
+}
+
+
+// 취소버튼 누르면 전체 인풋내용삭제
+function reset() {
+    // document.getElementById("login").reset();
+    document.forms[0].reset();
+
 }
