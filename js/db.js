@@ -1,3 +1,4 @@
+let dataset;
 
 function initDatabase() {
     let shortName = "Member";
@@ -18,6 +19,31 @@ function initDatabase() {
     // dropTable(db);
     // createTable(db);
     // insertTestDB(db);
+    selectAllList(db);
+}
+
+function selectAllList(db) {
+    let strSql = "SELECT " 
+            + "tbl_board.idx, tbl_board.content, tbl_board.regdate, tbl_member.nick " 
+            + "FROM tbl_board " 
+            + "INNER JOIN tbl_member " 
+            + "ON tbl_board.idx = tbl_member.idx " 
+            + "ORDER BY tbl_board.idx DESC";
+    db.transaction(function (tx) {
+        tx.executeSql(strSql, [], function (tx, result) {
+            dataset = result.rows;
+            let str = "";
+            if (dataset.length > 0) {
+                for (let i = 0, item = null; i <dataset.length; i++) {
+                    item = dataset.item(i);
+                    str += "<span class='item'>" + (dataset.length - i) + " : " + item['content'] + " : " + item['nick'] + " : " + item['regdate']+ "</span><br>";
+                }
+            } else {
+                str += "리스트 내용이 없습니다.";
+            }
+            $("#boardlist").html(str);
+        });
+    });
 }
 
 
