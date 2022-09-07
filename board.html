@@ -12,21 +12,36 @@
         background: rgba(216, 222, 148, 0.6);
     }
 
+    h1 {
+    font-family: Arial;
+    font-size: 35px;
+    font-style: normal;
+    font-weight: 500;
+    color: #495057;
+    text-align: center;
+    text-decoration: underline;
+    line-height: 1.2;
+    }
+
     #list {
-        list-style: none;
+        list-style: none;   
     }
 
     .btn_set {
-        margin: 0;
-        margin-left: 25%;
+        margin:0;
         display: inline-block;
-        padding: 5px;
+        padding: 10px;
+        width: 960px;
     }
 
     .btn, .btn_edit, .btn_delete {
-        width: 50px;
+        width: 100px;
+        height: 25px;
         cursor: pointer;
-        display: inline-block;
+        display: block;
+        border-radius: 3px;
+        margin: auto;
+
         background: #3498db;
         background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
         background-image: -moz-linear-gradient(top, #3498db, #2980b9);
@@ -35,10 +50,7 @@
         background-image: linear-gradient(to bottom, #3498db, #2980b9);
         text-align: center;
         color: #ffffff;
-        padding: 3px;
-
-        border-radius: 3px;
-        cursor: pointer;
+        padding: 5px;      
     }
 
     .btn:hover, .btn_edit:hover, .btn_delete:hover {
@@ -52,16 +64,16 @@
 
     #form {
         background: #fff;
-        width: 500px;
+        width: 980px;
         border-radius: 3px;
         padding: 3px;
-        font-size: 12px;
+        font-size: 15px;
     }
 
     .boardlist {
         background: #fff;
         border-radius: 3px;
-        width: 900px;
+        width: 980px;
         font-size: 12px;
         padding: 1px;
     }
@@ -75,7 +87,7 @@
     }
 
     .board_list {
-        border: 1px solid skyblue;
+        border: 1px solid black;
         padding: 20px;
         font-size: 15px;
         margin: 0 0 40px 0;
@@ -90,38 +102,78 @@
         padding: 6px 12px;
     }
 
-    td {
+    tr:nth-child(odd) {
         background: #f6f6f6;
+    }
+
+    tr:nth-child(even) {
+        background: #dfdfdf;
+    }
+
+    tr:hover {
+        background: #f0cdcd;
+    }
+
+    td {
+
         padding: 6px 12px;
     }
+    
     .num {
         text-align: center;
     }
+
+
+    fieldset {
+        font-family: sans-serif;
+        border: 5px solid #477bbb;
+        background: #ddd;
+        border-radius: 5px;
+        padding: 15px;
+    }
+
+    fieldset legend {
+        background: #477bbb;
+        color: #fff;
+        padding: 5px 10px ;
+        font-size: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 0 2px #ddd;
+        margin-left: 30px;
+    }
+
+    #content {
+        width: 800px;
+        position:relative;
+        font-size: 20px;
+        padding: 3px;
+        display: inline-block;
+        border-radius: 7px;
+    }
+
 </style>
 </head>
 
 
 <body>
     <div id="form">
-        <h1>B*O*A*R*D</h1>
+        <h1>Tokyo Jini BOARD</h1>
         <form id="mycontact">
             <input id="id" type="hidden" value=""/>
             <fieldset>
-                <legend>게시판</legend>
-                <ol id="list">
-                  
+                <legend>내용</legend>
+                <ol id="list">                
                     <li>
-                        <label for="content">내용: </label>
-                        <input id="content" type="text" placeholder="Write" required>
+                        <input id="content" type="text" placeholder="이곳에 내용을 적어주세요" required>
                     </li>
                 </ol>
             </fieldset>
 
             <div class="btn_set">
-                <span id="btn_reset" class="btn">글지우기</span>
+                <!-- <span id="btn_reset" class="btn">글지우기</span> -->
                 <span id="btn_insert" class="btn">글쓰기</span>
-                <span id="btn_update" class="btn">글수정</span>
-                <span id="btn_drop" class="btn">DB삭제</span>
+                <!-- <span id="btn_update" class="btn">글수정</span>
+                <span id="btn_drop" class="btn">DB삭제</span> -->
             </div>
         </form>
     </div>
