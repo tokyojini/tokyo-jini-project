@@ -34,18 +34,53 @@ function selectAllList(db) {
             dataset = result.rows;
             let str = "";
             if (dataset.length > 0) {
+                str += "<table class='board_list'>";
+                    str += "<thead>";
+                        str += "<tr>";
+                         str += "<th width='50'>" + "번호" + "</th>";
+                         str += "<th width='500'>" + "내용" + "</th>";
+                         str += "<th width='100'>" + "글쓴이" + "</th>";
+                         str += "<th width='250'>" + "작성일" + "</th>";
+                        str += "</tr>";
+                    str += "</thead>";
+
                 for (let i = 0, item = null; i <dataset.length; i++) {
                     item = dataset.item(i);
-                    str += "<span class='item'>" + (dataset.length - i) + " : " + item['content'] + " : " + item['nick'] + " : " + item['regdate']+ "</span><br>";
+                    
+                    str += "<tr>";
+                    str += "<td class='num'>" + (dataset.length - i) + "</th>";
+                    str += "<td>" + item['content'] + "</th>";
+                    str += "<td>" + item['nick'] + "</th>";
+                    str += "<td>" + changeDate(item['regdate']) + "</th>";
+                    str += "</tr>";
+
                 }
+
+                str += "</table>"; 
+
+
             } else {
                 str += "리스트 내용이 없습니다.";
             }
+
             $("#boardlist").html(str);
         });
     });
 }
 
+
+// 2022-09-05 07:19:32 -> 2022년 09월 05일 07시 19분
+function changeDate(pDate) {
+    let str = "";
+
+    let tempDates = pDate.split(' '); 
+    let tempDates2 = tempDates[0].split('-');
+    let tempDates3 = tempDates[1].split(':');
+    str = tempDates2[0] + "년 " + tempDates2[1] + "월 " + tempDates2[2] + "일 " 
+        + tempDates3[0] + "시 " + tempDates3[1] + "분 ";
+
+    return str;
+}
 
     // 연속숫자. 연속문자 4자배열만들기
     function makeChainString() {
