@@ -41,6 +41,8 @@ function selectAllList(db) {
                          str += "<th width='500'>" + "내용" + "</th>";
                          str += "<th width='100'>" + "글쓴이" + "</th>";
                          str += "<th width='250'>" + "작성일" + "</th>";
+                         str += "<th width='40'>" + "수정" + "</th>";
+                         str += "<th width='40'>" + "삭제" + "</th>";
                         str += "</tr>";
                     str += "</thead>";
 
@@ -52,6 +54,8 @@ function selectAllList(db) {
                     str += "<td>" + item['content'] + "</th>";
                     str += "<td>" + item['nick'] + "</th>";
                     str += "<td>" + changeDate(item['regdate']) + "</th>";
+                    str += "<td>" + "0" + "</th>";
+                    str += "<td>" + "0" + "</th>";
                     str += "</tr>";
 
                 }
