@@ -22,17 +22,42 @@ function initDatabase() {
     selectAllList(db);
 }
 
+/*
+    게시판 글쓰기
+*/
+function insertBoard() {
+    let strSql = "INSERT INTO tbl_board (member_idx,content) VALUES(?,?)";
+    let content = $("#content").val().trim();
+    let member_idx = getCookie("idx");
+
+    if (content === "") {
+        alert("글을 적어주세요");
+        $("#content").focus();
+        return;
+    }
+
+    systemDB.transaction(function (tx) {
+        tx.executeSql(strSql, [member_idx, content], replaceBoard, errorHandler);
+    });
+}
+
+function replaceBoard() {
+    location.href = "board.html";
+}
+
 function selectAllList(db) {
     let strSql = "SELECT " 
             + "tbl_board.idx, tbl_board.content, tbl_board.regdate, tbl_member.nick " 
             + "FROM tbl_board " 
             + "INNER JOIN tbl_member " 
-            + "ON tbl_board.idx = tbl_member.idx " 
+            + "ON tbl_board.member_idx = tbl_member.idx " 
             + "ORDER BY tbl_board.idx DESC";
+
     db.transaction(function (tx) {
         tx.executeSql(strSql, [], function (tx, result) {
             dataset = result.rows;
             let str = "";
+
             if (dataset.length > 0) {
                 str += "<table class='board_list'>";
                     str += "<thead>";
@@ -54,21 +79,32 @@ function selectAllList(db) {
                     str += "<td>" + item['content'] + "</th>";
                     str += "<td>" + item['nick'] + "</th>";
                     str += "<td>" + changeDate(item['regdate']) + "</th>";
-                    str += "<td>" + "0" + "</th>";
-                    str += "<td>" + "0" + "</th>";
+                    str += "<td>" + "<span class='btn edit' onclick='updateBoard("+item['idx']+")'> 수정 <span>" + "</th>";
+                    str += "<td>" + "<span class='btn delete'> 삭제 <span>" + "</th>";
                     str += "</tr>";
-
                 }
 
                 str += "</table>"; 
-
-
             } else {
                 str += "리스트 내용이 없습니다.";
             }
 
             $("#boardlist").html(str);
         });
+    });
+}
+
+// 게시판글수정 (9월9일부터 시작)
+function updateBoard(idx) {
+    let strSql = "SELECT "
+                + "* " 
+                + "FROM tbl_board "
+                + "WHERE idx = ?";
+
+    systemDB.transaction(function (tx) {
+        tx.executeSql(strSql, [idx], function (tx, result) {
+            $("#content").val(result.rows[0]['content']);
+        }, errorHandler);
     });
 }
 
@@ -177,7 +213,7 @@ function resultDroptable() {
 function loadAndReset() {
     console.log("Insert Record SUCCESS");
     location.href = "login.html"
-}
+ }
 
 function errorHandler(transaction, error) {
     console.log("Error: " + error.message + " (Code "+error.code+")");
@@ -254,9 +290,8 @@ function isMember() {
 
             if (results.rows.length > 0) {
                 //쿠키에 이메일정보 저장(이메일넣고 로그인했을때)
-                let email = "email";
-                document.cookie = email + "=" + results.rows[0].email;
-
+                document.cookie = "idx=" + results.rows[0].idx;
+                document.cookie = "email=" + results.rows[0].email;
             }
         }, function(tx, error) {
             console.log("Error : " + error.message);
@@ -272,4 +307,15 @@ function reset() {
     // document.getElementById("login").reset();
     document.forms[0].reset();
 
+}
+
+
+// 수정해서 공부하기
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    
+    if (parts.length === 2) {
+      return unescape(parts.pop()).split(';').shift();
+    }
 }

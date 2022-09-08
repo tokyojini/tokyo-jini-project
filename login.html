@@ -143,7 +143,7 @@ function goLogin() {
     if (checkField() == true) {
         //쿠키에 이메일정보 저장(이메일넣고 로그인했을때)
         isMember();
-      
+
         setTimeout(function () {
             // 2초후에 쿠키에있는이메일정보를 확인하여 있으면 보드로이동
             if (document.getElementById("email").value == getCookie("email")) {
@@ -159,21 +159,6 @@ function goLogin() {
         reset();
     }
 }
-
-
-
-
-// 수정해서 공부하기
-function getCookie(name) {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return unescape(parts.pop()).split(';').shift();
-}
-
-function master() {
-    let master = "나는 누구인가 나는 임정훈을 멕여살리는 사람인가요? 어흐흐흐흑 주말에 공부한다니 화를 내네. 화요일은 그럼 아침부터나갈게요. 나 과외비없어."
-}
-
 
 function checkField() {
     // 이메일.비번 값을 가져온다
