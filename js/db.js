@@ -79,7 +79,7 @@ function selectAllList(db) {
                     str += "<td>" + item['content'] + "</th>";
                     str += "<td>" + item['nick'] + "</th>";
                     str += "<td>" + changeDate(item['regdate']) + "</th>";
-                    str += "<td>" + "<span class='btn edit' onclick='updateBoard("+item['idx']+")'> 수정 <span>" + "</th>";
+                    str += "<td>" + "<span class='btn edit' onclick='getBoardOne("+item['idx']+")'> 수정 <span>" + "</th>";
                     str += "<td>" + "<span class='btn delete'> 삭제 <span>" + "</th>";
                     str += "</tr>";
                 }
@@ -95,7 +95,7 @@ function selectAllList(db) {
 }
 
 // 게시판글수정 (9월9일부터 시작)
-function updateBoard(idx) {
+function getBoardOne(idx) {
     let strSql = "SELECT "
                 + "* " 
                 + "FROM tbl_board "
@@ -103,10 +103,28 @@ function updateBoard(idx) {
 
     systemDB.transaction(function (tx) {
         tx.executeSql(strSql, [idx], function (tx, result) {
+            // 글 내용 보내기
             $("#content").val(result.rows[0]['content']);
+
+            // 글쓰기 버튼은 비표시, 글수정 버튼은 표시
+            document.getElementById("btn_insert").style.display ="none";
+            document.getElementById("btn_update").style.display ="block";
+          
+           // 글수정 버튼의 글번호를 부여한다.(총3가지)
+            //1. 변수에 저장을한다
+            boardIdx = result.rows[0]['idx'];
+           
+            //2. 화면에 안보이게저장을한다
+            $("#board_idx").text(result.rows[0]['idx']);
+
+            //3. 버튼에다가 번호를 부여한다
+            $("#btn_update").attr("data-idx", result.rows[0]['idx']);
         }, errorHandler);
     });
 }
+
+// 글수정 버튼의 글번호를 가져와서 글내용을 저장한다.
+
 
 
 // 2022-09-05 07:19:32 -> 2022년 09월 05일 07시 19분
