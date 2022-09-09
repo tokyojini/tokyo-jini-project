@@ -184,6 +184,14 @@
         display: none;
     }
 
+    #btn_insert {
+        display: block;
+    }
+
+    #board_idx {
+        display: none;
+    }
+
 </style>
 </head>
 
@@ -197,7 +205,7 @@
                 <legend>내용</legend>
                 <ol id="list">                
                     <li>
-                        <input id="content" type="text" placeholder="이곳에 내용을 적어주세요" required>
+                        <input id="content" type="text" placeholder="이곳에 내용을 적어주세요" value="" required>
                     </li>
                 </ol>
             </fieldset>
@@ -205,18 +213,20 @@
             <div class="btn_set">
                 <!-- <span id="btn_reset" class="btn">글지우기</span> -->
                 <span id="btn_insert" class="btn write">글쓰기</span>
-                <span id="btn_update" class="btn write">글수정</span>
+                <span id="btn_update" class="btn write" data-idx="">글수정</span>
                 <!-- <span id="btn_drop" class="btn">DB삭제</span> --> 
             </div>
         </form>
     </div>
     <br>
     <div id="boardlist" class="boardlist">list</div>
+    <div id="board_idx">123</div>
 
     <script src="js/db.js"></script>
 <script>
 // db관련 
 let systemDB;
+let boardIdx;
 
 $(document).ready(function() {
     initDatabase();
