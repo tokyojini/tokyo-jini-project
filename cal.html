@@ -7,58 +7,114 @@
     <title>Document</title>
     <style>
         table {
-            border: 2px solid blue;
+            border: 5px solid green;
             width: 300px;
-            height: 450px;
+            height: 580px;
+            margin: auto;
         }
 
+        caption {
+            text-align: center;
+            font-size: 35px;
+            margin: 10px;
+        }
         
         td {
-            border: 1px solid gray;
-            text-align: center;
+            text-align: right;
+            font-size: 60px;
         }
 
+        button {
+            width: 75px;
+            height: 90px;
+            font-size: 40px;
+            background-color: black;
+            color: white;
+            border-radius: 5px;
+            text-align: center;
+            box-shadow: 0 7px #808080;
+            border-color: white;
+        }
 
+        .cal {
+            background-color: gray;
+        }
+
+        .num:hover {
+            cursor: pointer;
+        }
+
+        .num:active {
+            background-color: white; 
+            color: black;
+            box-shadow: 0 3px #808080;
+            transform: translateY(4px);
+        }
+
+        .cal:hover {
+            cursor: pointer;
+        }
+
+        .cal:active {
+            background-color: white;
+            color: black;
+            box-shadow: 0 3px #808080;
+            transform: translateY(4px);
+        }
+
+        input {
+            width: 280px;
+            height: 60px;
+            padding: 10px;
+            margin: 10px;
+            text-align: right;
+            font-size: 60px;
+        }
     </style>
 </head>
 
-
 <body>
-    <h1>계산기</h1>
-
-    <table>    
+    <table>
+        <caption>tokyojini 계산기</caption>    
         <tr>
-            <td colspan="4">0</td>
-          
+            <td colspan="4">
+                <input type="text" value="0">
+            </td>
         </tr>
 
         <tr>
-            <td>7</td>
-            <td>8</td>
-            <td>9</td>
-            <td>+</td>
+            <td><button type="button" class="num">7</button></td>
+            <td><button type="button" class="num">8</button></td>
+            <td><button type="button" class="num">9</button></td>
+            <td><button type="button" class="cal">+</button></td>
         </tr>
 
         <tr>
-            <td>4</td>
-            <td>5</td>
-            <td>6</td>
-            <td>-</td>
+            <td><button type="button" class="num">4</button></td>
+            <td><button type="button" class="num">5</button></td>
+            <td><button type="button" class="num">6</button></td>
+            <td><button type="button" class="cal">-</button></td>
         </tr>
 
         <tr>
-            <td>1</td>
-            <td>2</td>
-            <td>3</td>
-            <td>*</td>
+            <td><button type="button" class="num">1</button></td>
+            <td><button type="button" class="num">2</button></td>
+            <td><button type="button" class="num">3</button></td>
+            <td><button type="button" class="cal">*</button></td>
         </tr>
 
         <tr>
-            <td>C</td>
-            <td>0</td>
-            <td>=</td>
-            <td>/</td>
+            <td><button type="button" class="cal">C</button></td>
+            <td><button type="button" class="num">0</button></td>
+            <td><button type="button" class="cal">=</button></td>
+            <td><button type="button" class="cal">/</button></td>
         </tr>
     </table>
+
+    <script> 
+    
+    
+    
+    </script>
 </body>
 </html>
