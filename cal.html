@@ -78,43 +78,62 @@
         <caption>tokyojini 계산기</caption>    
         <tr>
             <td colspan="4">
-                <input type="text" value="0">
+                <input type="text" id="screen" value="0">
             </td>
         </tr>
 
         <tr>
-            <td><button type="button" class="num">7</button></td>
-            <td><button type="button" class="num">8</button></td>
-            <td><button type="button" class="num">9</button></td>
-            <td><button type="button" class="cal">+</button></td>
+            <td><button type="button" class="num" onclick="operation(7)">7</button></td>
+            <td><button type="button" class="num" onclick="operation(8)">8</button></td>
+            <td><button type="button" class="num" onclick="operation(9)">9</button></td>
+            <td><button type="button" class="cal" onclick="operation('+')">+</button></td>
         </tr>
 
         <tr>
-            <td><button type="button" class="num">4</button></td>
-            <td><button type="button" class="num">5</button></td>
-            <td><button type="button" class="num">6</button></td>
-            <td><button type="button" class="cal">-</button></td>
+            <td><button type="button" class="num" onclick="operation(4)">4</button></td>
+            <td><button type="button" class="num" onclick="operation(5)">5</button></td>
+            <td><button type="button" class="num" onclick="operation(6)">6</button></td>
+            <td><button type="button" class="cal" onclick="operation('-')">-</button></td>
         </tr>
 
         <tr>
-            <td><button type="button" class="num">1</button></td>
-            <td><button type="button" class="num">2</button></td>
-            <td><button type="button" class="num">3</button></td>
-            <td><button type="button" class="cal">*</button></td>
+            <td><button type="button" class="num" onclick="operation(1)">1</button></td>
+            <td><button type="button" class="num" onclick="operation(2)">2</button></td>
+            <td><button type="button" class="num" onclick="operation(3)">3</button></td>
+            <td><button type="button" class="cal" onclick="operation('*')">*</button></td>
         </tr>
 
         <tr>
-            <td><button type="button" class="cal">C</button></td>
-            <td><button type="button" class="num">0</button></td>
-            <td><button type="button" class="cal">=</button></td>
-            <td><button type="button" class="cal">/</button></td>
+            <td><button type="button" class="cal" onclick="reset()">C</button></td>
+            <td><button type="button" class="num" onclick="operation(0)">0</button></td>
+            <td><button type="button" class="cal" onclick="result()">=</button></td>
+            <td><button type="button" class="cal" onclick="operation('/')">/</button></td>
         </tr>
     </table>
 
-    <script> 
+    <script>
+    let input = "";
+
+ 
+    function reset() {
+       let obj = document.getElementById('screen'); //screen값에 접근
+       input = "";
+       obj.value = 0; //screen값에 0저장
+    }
+
+    function operation(i) {
+        let obj = document.getElementById('screen');
+        input = input + i; //input+1을 하는이유는 기존에 있던값에 이어서 입력하기위함
+        obj.value = input; //obj값에 input값 저장
+    }
+
+    function result() {
+        let obj = document.getElementById('screen');
+        obj.value = eval(input); //eval을 사용해 수식계산후 obj에 값입력
+    }  
+
     
-    
-    
+
     </script>
-</body>
+</body> 
 </html>
